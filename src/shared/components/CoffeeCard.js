@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom';
 import {
   Card, CardContent, CardHeader, Avatar, CardActions, IconButton
 } from '@material-ui/core';
@@ -46,6 +47,7 @@ const useStyles = makeStyles({
 });
 
 export default function CoffeeCard({ drink, isFavorite = false, onClick }) {
+  const history = useHistory();
   const classes = useStyles();
   const avatarClasses = [
     classes.avatarBlue, classes.avatarGreen, classes.avatarOrange,
@@ -56,6 +58,11 @@ export default function CoffeeCard({ drink, isFavorite = false, onClick }) {
     return x - Math.floor(x);
   };
   const randId = Math.floor(random(drink.id) * avatarClasses.length);
+
+  const handleClick = () => {
+    history.push(`/demo5?favorite=${drink.id}`);
+    onClick();
+  };
 
   return (
     <Card className={classes.root}>
@@ -71,7 +78,7 @@ export default function CoffeeCard({ drink, isFavorite = false, onClick }) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing className={classes.actions}>
-        <IconButton aria-label="add to favorites" color={isFavorite ? 'secondary' : 'default'} onClick={onClick}>
+        <IconButton aria-label="add to favorites" color={isFavorite ? 'secondary' : 'default'} onClick={handleClick}>
           <FavoriteIcon />
         </IconButton>
       </CardActions>
